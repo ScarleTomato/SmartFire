@@ -32,10 +32,13 @@ public class ScoutFiresTask extends BukkitRunnable{
 
 	@Override
 	public void run() {
-		for(int i = 0;i<20;i++){
+		int count = (plugin.fireQueue.size()>config.maxFiresPerTask?config.maxFiresPerTask:plugin.fireQueue.size());
+		for(int i = 0;i<count;i++){
 			findSurroundingFlammableBlocks(plugin.fireQueue.pop());
 		}
 		
+		new ScoutFiresTask(plugin).runTaskLater(plugin, config.tickDelayBetweenTasks);
+		this.cancel();
 	}
 	
 	private void findSurroundingFlammableBlocks(SFLocationInfo sfli){
@@ -44,10 +47,13 @@ public class ScoutFiresTask extends BukkitRunnable{
 		//get spread settings
 		SFBiomeConfig bc = (config.biomeSettings.containsKey(sfli.biomeName)?config.biomeSettings.get(sfli.biomeName):config.defaultSettings);
 		
+		
 		//if there is a valid generationLimit for this biome and
 		//if this generation is the last, then don't search for any more places to spread
-		if(bc.generationLimit > -1 && sfli.generation>bc.generationLimit)
-			return;
+		if(bc.generationLimit > -1 && sfli.generation>bc.generationLimit) return;
+		
+		//if the block is not fire anymore don't spread
+		if(b.getType() != Material.FIRE) return;
 		
 		//for each block in the specified surrounding area
 		Block br;

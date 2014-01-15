@@ -16,12 +16,13 @@ public class SFBiomeConfig {
 	}
 
 	public SFBiomeConfig(ConfigurationSection cs){
+		
 		generationLimit = cs.getInt("generationLimit");
 		upSpread = cs.getInt("upSpread");
 		downSpread = cs.getInt("downSpread");
 		sideSpread = cs.getInt("sideSpread");
 		probability = cs.getDouble("probability");
-		flammableMaterials = new ArrayList<String>(cs.getStringList(""));
+		flammableMaterials = new ArrayList<String>(cs.getStringList("flammableMaterials"));
 	}
 	
 	public ConfigurationSection getCS(){

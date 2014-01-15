@@ -16,18 +16,18 @@ public class SmartFire extends JavaPlugin {
     public void onEnable() {
     	loadConfig();
     	loadListener();
-    	
+
     	new ScoutFiresTask(this).runTaskLater(this, 20);
     }
  
     @Override
     public void onDisable() {
-		try {
-			config.save();
-		} catch (InvalidConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			config.save();
+//		} catch (InvalidConfigurationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     }
     
     private void loadConfig(){

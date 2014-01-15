@@ -20,6 +20,7 @@ public class SFConfig {
 	SFBiomeConfig defaultSettings = new SFBiomeConfig();
 	HashMap<String, SFBiomeConfig> biomeSettings;
 	ArrayList<String> ignitions = new ArrayList<String>();
+	int maxFiresPerTask = 10, tickDelayBetweenTasks = 30;
 	
 	
 	public SFConfig(Plugin p){
@@ -38,13 +39,18 @@ public class SFConfig {
 	
 	private void getDefaultSettings(){
 		defaultSettings = new SFBiomeConfig(config.getConfigurationSection("defaultSettings"));
+		ignitions = new ArrayList<String>(config.getStringList("ignitions"));
+		maxFiresPerTask = config.getInt("maxFiresPerTask");
+		tickDelayBetweenTasks = config.getInt("tickDelayBetweenTasks");
 	}
 	
 	private void getBiomeSettings(){
 		biomeSettings = new HashMap<String, SFBiomeConfig>();
-		for(String biomeName:config.getConfigurationSection("biomeSettings").getKeys(false)){
-			ConfigurationSection biomeCS = config.getConfigurationSection("biomeSettings." + biomeName);
-			biomeSettings.put(biomeName, new SFBiomeConfig(biomeCS));
+		if(config.contains("biomeSettings")){
+			for(String biomeName:config.getConfigurationSection("biomeSettings").getKeys(false)){
+				ConfigurationSection biomeCS = config.getConfigurationSection("biomeSettings." + biomeName);
+				biomeSettings.put(biomeName, new SFBiomeConfig(biomeCS));
+			}
 		}
 	}
 	
@@ -52,12 +58,15 @@ public class SFConfig {
 		configFile.getParentFile().mkdirs();
 		
 	//TEMP CODE, eventually replaced with a copyFile method
+		config.set("maxFiresPerTask", maxFiresPerTask);
+		config.set("tickDelayBetweenTasks", tickDelayBetweenTasks);
+		
 		ignitions.add("FLINT_AND_STEEL");
 		ignitions.add("LAVA");
 		config.set("ignitions", ignitions);
 		
 		defaultSettings = new SFBiomeConfig();
-		defaultSettings.flammableMaterials.add("STONE");
+		defaultSettings.flammableMaterials.add("NETHERRACK");
 		config.set("defaultSettings", defaultSettings.getCS());
 		
 		HashMap<String, ConfigurationSection> h = new HashMap<String, ConfigurationSection>();
