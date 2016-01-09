@@ -1,0 +1,24 @@
+# How many fires should the plugin spread per task?
+# This forces the server to only calculate a determined amount and queue the rest
+# While this can help the server cope, it will change the behaviour slightly, 
+# since the queued up fires can burn out before they get a chance to spread
+maxFiresPerTask: 10
+# How often should these fire spread tasks take place?
+tickDelayBetweenTasks: 30
+ignitions:
+- FLINT_AND_STEEL
+- LAVA
+# Default settings for all biomes, unless overridden in biomeSettings
+defaultSettings:
+  # how many times can a fire spread? -1 is indefinite
+  generationLimit: -1
+  # how many blocks away can the fire jump?
+  upSpread: 5
+  downSpread: 1
+  sideSpread: 3
+  # for each flammable block in reach of the fire, what is the probability that it will become enflamed?
+  probability: 0.5
+  # on top of the default materials, what other blocks should be considered flammable?
+  flammableMaterials:
+  - NETHERRACK
+biomeSettings:

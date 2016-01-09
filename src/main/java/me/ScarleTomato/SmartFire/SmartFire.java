@@ -16,12 +16,15 @@ public class SmartFire extends JavaPlugin {
     public void onEnable() {
     	loadConfig();
     	loadListener();
+    	
+    	getLogger().info("Smartfire has been enabled");
 
     	new ScoutFiresTask(this).runTaskLater(this, 20);
     }
  
     @Override
     public void onDisable() {
+    	getLogger().info("Smartfire has been disabled");
 //		try {
 //			config.save();
 //		} catch (InvalidConfigurationException e) {
